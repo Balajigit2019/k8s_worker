@@ -235,4 +235,3 @@ provisioner "remote-exec" {
 ]
   }
 }
-/*
