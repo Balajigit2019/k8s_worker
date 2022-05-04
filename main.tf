@@ -235,13 +235,3 @@ provisioner "remote-exec" {
 ]
   }
 }  
-
-/*
-resource "null_resource" "file_creation" {
-  provisioner "local-exec" {
-     command = "/bin/bash file.sh"
-  }	 
-}
-*/
-
-
