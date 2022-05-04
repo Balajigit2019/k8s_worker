@@ -1,0 +1,75 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+  tasks:
+    - name: kube user create
+      user:
+        name: kube
+        state: present  
+    - name: Create containerd config file
+      file:
+         path: "/etc/modules-load.d/containerd.conf"
+         state: "touch"
+    - name: Add conf for containerd
+      blockinfile:
+         path: "/etc/modules-load.d/containerd.conf"
+         block: |
+               overlay
+               br_netfilter
+    - name: modprobe
+      shell: |
+               sudo modprobe overlay
+               sudo modprobe br_netfilter
+    - name: Set system configurations for Kubernetes networking
+      file:
+         path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+         state: "touch"
+    - name: Add conf for containerd
+      blockinfile:
+         path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+         block: |
+                net.bridge.bridge-nf-call-iptables = 1
+                net.ipv4.ip_forward = 1
+                net.bridge.bridge-nf-call-ip6tables = 1
+    - name: Apply new settings
+      command: sudo sysctl --system
+    - name: install containerd
+      shell: |
+               sudo apt-get update && sudo apt-get install -y containerd
+               sudo mkdir -p /etc/containerd
+               sudo containerd config default | sudo tee /etc/containerd/config.toml
+               sudo systemctl restart containerd
+    - name: swap off
+      mount:
+        name: "{{ item }}"
+        fstype: swap
+        state: absent
+      with_items:
+        - swap           
+    - name: Kubernetes signing key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+      #      shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    - name: Xenial Kubernetes Repository
+      shell:
+        cmd: apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    - name: install kubernetes
+      shell: |
+               sudo apt-get update
+               sudo apt-get install -y kubelet kubeadm kubectl
+               sudo apt-mark hold kubelet kubeadm kubectl 
+#    - name: Copy join command from Ansiblehost to the worker nodes.
+#    #     become: yes
+#     copy:
+#       src: /tmp/kubernetes_join_command
+#       dest: /tmp/kubernetes_join_command
+#       mode: 0777
+
+    - name: Join the Worker nodes to the cluster.
+      become: yes
+      command: sh /tmp/kubernetes_join_command
+      register: joined_or_not           
