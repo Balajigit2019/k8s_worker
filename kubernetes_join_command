@@ -1,1 +1,1 @@
-kubeadm join 172.16.1.216:6443 --token d9bw3k.u6ib971fvouilldt --discovery-token-ca-cert-hash sha256:b1535ba7b7a80fbc4ebeb1f3115baaecca31bb1e008cd8c9a57da25c164881b2 
+sudo kubeadm join 172.16.1.216:6443 --token d9bw3k.u6ib971fvouilldt --discovery-token-ca-cert-hash sha256:b1535ba7b7a80fbc4ebeb1f3115baaecca31bb1e008cd8c9a57da25c164881b2 
