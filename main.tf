@@ -207,8 +207,7 @@ provisioner "remote-exec" {
 provisioner "file" {
     source = "kubernetes_join_command"
     destination = "/tmp/kubernetes_join_command"
-  }
-}			
+  }			
 provisioner "file" {
     source = "k8s.yaml"
     destination = "/tmp/k8s.yaml"
