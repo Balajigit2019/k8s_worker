@@ -216,11 +216,9 @@ provisioner "file" {
     destination = "/tmp/k8s.yaml"
   }
 }
-/*
 provisioner "remote-exec" {
    inline = [
     "sudo ansible-playbook /tmp/k8s.yaml"
 ]
   }
 }
-*/
