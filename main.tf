@@ -201,6 +201,7 @@ connection {
 provisioner "remote-exec" {
     inline = [
 	 "sudo apt update -y",
+	 "sudo apt-get install python -y",   
          "sudo apt install ansible -y"
 ]
   }	
