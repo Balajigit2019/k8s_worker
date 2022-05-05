@@ -219,4 +219,3 @@ provisioner "remote-exec" {
     "sudo ansible-playbook /tmp/k8s.yaml"
 ]
   }
-}
