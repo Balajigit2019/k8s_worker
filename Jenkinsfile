@@ -1,7 +1,6 @@
 pipeline {
     agent any 
-    stages {
-/*        
+    stages {        
          stage('terraform init') { 
             steps {
                sh 'terraform init'
@@ -14,7 +13,8 @@ pipeline {
         }
         stage('terraform apply') {
             steps {
-                sh 'TF_LOG=DEBUG terraform apply --auto-approve'
+                sh 'terraform apply --auto-approve'
+#                sh 'TF_LOG=DEBUG terraform apply --auto-approve'
             }
         }
         stage('Download') {
@@ -24,7 +24,7 @@ pipeline {
         }     
     }         
 }    
-*/
+/*
         stage('terraform destroy') { 
             steps {
                sh 'terraform destroy --auto-approve'
@@ -32,3 +32,4 @@ pipeline {
         }        
     }   
 } 
+*/
