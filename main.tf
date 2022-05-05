@@ -179,26 +179,12 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 }
-/*
-data "aws_subnet" "selected" {
-  filter {
-    name   = "tag:Name"
-    values = ["k8s_public_subnet"]
-  }
-}
-
-data "aws_security_group" "sg" {
-  filter {
-    name   = "tag:Name"
-    values = ["k8s_sg"]
-  }
-}
-*/
 resource "aws_instance" "k8s_worker" {
  ami = data.aws_ami.ubuntu.id
  instance_type = "t2.small"
  key_name      = var.key_name
- subnet_id = "subnet-09350ea21d25742e3"
+ subnet_id = "subnet-01f136e7ade6c88a9"
+ user_data = "${file("install.sh")}"
  
     
 tags = {
@@ -212,13 +198,14 @@ connection {
     host = self.public_ip
 	
 }
+/*
 provisioner "remote-exec" {
     inline = [
 	 "sudo apt update -y",
          "sudo apt install ansible -y"
 ]
   }
-
+*/
 provisioner "file" {
     source = "kubernetes_join_command"
     destination = "/tmp/kubernetes_join_command"
@@ -228,10 +215,12 @@ provisioner "file" {
     source = "k8s.yaml"
     destination = "/tmp/k8s.yaml"
   }
-
+}
+/*
 provisioner "remote-exec" {
    inline = [
     "sudo ansible-playbook /tmp/k8s.yaml"
 ]
   }
 }
+*/
