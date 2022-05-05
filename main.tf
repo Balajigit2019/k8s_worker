@@ -184,7 +184,7 @@ resource "aws_instance" "k8s_worker" {
  instance_type = "t2.small"
  key_name      = var.key_name
  subnet_id = "subnet-01f136e7ade6c88a9"
- user_data = "${file("install.sh")}"
+# user_data = "${file("install.sh")}"
  
     
 tags = {
@@ -197,21 +197,18 @@ connection {
     private_key = file("${aws_key_pair.kp.key_name}.pem")
     host = self.public_ip
 	
-}
-/*	
+}	
 provisioner "remote-exec" {
     inline = [
 	 "sudo apt update -y",
          "sudo apt install ansible -y"
 ]
-  }
-*/	
+  }	
 provisioner "file" {
     source = "kubernetes_join_command"
     destination = "/tmp/kubernetes_join_command"
   }
-}		
-/*	
+}			
 provisioner "file" {
     source = "k8s.yaml"
     destination = "/tmp/k8s.yaml"
@@ -223,4 +220,3 @@ provisioner "remote-exec" {
 ]
   }
 }
-*/
