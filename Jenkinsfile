@@ -1,6 +1,7 @@
 pipeline {
     agent any 
-    stages {        
+    stages { 
+/*        
          stage('terraform init') { 
             steps {
                sh 'terraform init'
@@ -23,7 +24,7 @@ pipeline {
         }     
     }         
 }    
-/*
+*/
         stage('terraform destroy') { 
             steps {
                sh 'terraform destroy --auto-approve'
@@ -31,4 +32,3 @@ pipeline {
         }        
     }   
 } 
-*/
