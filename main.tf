@@ -198,23 +198,29 @@ connection {
     host = self.public_ip
 	
 }
+/*	
 provisioner "remote-exec" {
     inline = [
 	 "sudo apt update -y",
          "sudo apt install ansible -y"
 ]
   }
+*/	
 provisioner "file" {
     source = "kubernetes_join_command"
     destination = "/tmp/kubernetes_join_command"
   }
+/*	
 provisioner "file" {
     source = "k8s.yaml"
     destination = "/tmp/k8s.yaml"
   }
+}
+/*
 provisioner "remote-exec" {
    inline = [
     "sudo ansible-playbook /tmp/k8s.yaml"
 ]
   }
 }
+*/
