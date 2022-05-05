@@ -198,14 +198,12 @@ connection {
     host = self.public_ip
 	
 }
-/*
 provisioner "remote-exec" {
     inline = [
 	 "sudo apt update -y",
          "sudo apt install ansible -y"
 ]
   }
-*/
 provisioner "file" {
     source = "kubernetes_join_command"
     destination = "/tmp/kubernetes_join_command"
