@@ -14,7 +14,6 @@ pipeline {
         stage('terraform apply') {
             steps {
                 sh 'terraform apply --auto-approve'
-#                sh 'TF_LOG=DEBUG terraform apply --auto-approve'
             }
         }
         stage('Download') {
